@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/iroberts88/three#readme",
   "dependencies": {
+    "aws-sdk": "^2.259.1",
     "socket.io": "^2.1.1"
   }
 }
