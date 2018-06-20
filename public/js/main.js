@@ -25,11 +25,11 @@ $(function() {
     // initialize Graphics
     document.body.style.margin = "0px 0px 0px 0px";
     Graphics.init();
-
+    Acorn.Input.init();
     window.onresize = function(event) {
         Graphics.resize();
     };
-    
+
     // Set up keyboard bindings
     $(document).keypress(function(e) {
         if(e.keyCode === 32) {
@@ -46,6 +46,7 @@ $(function() {
             ){
             e.preventDefault();
         }*/
+        Acorn.Input.keyDown(key);
 
         if ((key === 32 || key === 38 || key === 37 || key === 39 || key === 40 || key === 127) ){
             e.preventDefault();
@@ -53,7 +54,7 @@ $(function() {
     });
 
     $(document).keyup(function(e) {
-        //Acorn.Input.keyUp(e.which)
+        Acorn.Input.keyUp(e.which)
     });
 
     window.addEventListener("contextmenu", function(e) {
@@ -64,10 +65,34 @@ $(function() {
 
 function animate() {
     requestAnimationFrame( animate );
+    var scrollSpeed = 5;
     if (Graphics.ready){
+        if (Acorn.Input.isPressed(Acorn.Input.Key.UP)){
+            moveCamera(-1);
+        }
+        if (Acorn.Input.isPressed(Acorn.Input.Key.DOWN)){
+            moveCamera(1);
+        }
+        if (Acorn.Input.isPressed(Acorn.Input.Key.LEFT)){
+            Graphics.camera.rotation.z -= 0.05;
+        }
+        if (Acorn.Input.isPressed(Acorn.Input.Key.RIGHT)){
+            Graphics.camera.rotation.z += 0.05;
+        }
+
         Graphics.renderer.render( Graphics.scene, Graphics.camera );
-        Graphics.cube.rotation.x += 0.01;
-        Graphics.cube.rotation.y += 0.01;
     }
 }
 animate();
+
+AcornSetup.input();
+
+function moveCamera(dir){
+    var scrollSpeed = 10;
+    var hyp = Math.sqrt(Math.pow(Graphics.camera.rotation.x,2) + Math.pow(Graphics.camera.rotation.y,2) + Math.pow(Graphics.camera.rotation.z,2));
+    var vec = new THREE.Vector3(0,0,scrollSpeed)
+    console.log(vec.applyEuler(Graphics.camera.rotation));
+    Graphics.camera.position.x += vec.x*dir;
+    Graphics.camera.position.y += vec.y*dir;
+    Graphics.camera.position.z += vec.z*dir;
+}
