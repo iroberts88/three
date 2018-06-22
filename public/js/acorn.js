@@ -69,10 +69,15 @@
         touchEventCallback: null,
         scrollCallback: null,
 
+        lon: 0,
+        lat: 0,
+        phi: 0,
+        theta: 0,
+        target: null,
 
         init: function() {
             this.bind();
-
+            this.target = new THREE.Vector3(Graphics.cube.position.x,Graphics.cube.position.y,Graphics.cube.position.z),
             //Mouse
             window.onmousemove = Acorn.Input.handleMouseMove;
             window.onmousedown = Acorn.Input.handleMouseClick;

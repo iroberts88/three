@@ -65,21 +65,41 @@ $(function() {
 
 function animate() {
     requestAnimationFrame( animate );
-    var scrollSpeed = 5;
+    var speed = 20;
     if (Graphics.ready){
         if (Acorn.Input.isPressed(Acorn.Input.Key.UP)){
-            moveCamera(-1);
+            var scrollSpeed = speed;
+            var vec = new THREE.Vector3(0,scrollSpeed,0)
+            console.log(vec.applyEuler(Graphics.camera.rotation));
+            Graphics.camera.position.x += vec.x;
+            Graphics.camera.position.y += vec.y;
+            Graphics.camera.position.z += vec.z;
         }
         if (Acorn.Input.isPressed(Acorn.Input.Key.DOWN)){
-            moveCamera(1);
+            var scrollSpeed = -speed;
+            var vec = new THREE.Vector3(0,scrollSpeed,0)
+            console.log(vec.applyEuler(Graphics.camera.rotation));
+            Graphics.camera.position.x += vec.x;
+            Graphics.camera.position.y += vec.y;
+            Graphics.camera.position.z += vec.z;
         }
         if (Acorn.Input.isPressed(Acorn.Input.Key.LEFT)){
-            Graphics.camera.rotation.z -= 0.05;
+            var scrollSpeed = -speed;
+            var vec = new THREE.Vector3(scrollSpeed,0,0)
+            console.log(vec.applyEuler(Graphics.camera.rotation));
+            Graphics.camera.position.x += vec.x;
+            Graphics.camera.position.y += vec.y;
+            Graphics.camera.position.z += vec.z;
         }
         if (Acorn.Input.isPressed(Acorn.Input.Key.RIGHT)){
-            Graphics.camera.rotation.z += 0.05;
+            var scrollSpeed = speed;
+            var vec = new THREE.Vector3(scrollSpeed,0,0)
+            console.log(vec.applyEuler(Graphics.camera.rotation));
+            Graphics.camera.position.x += vec.x;
+            Graphics.camera.position.y += vec.y;
+            Graphics.camera.position.z += vec.z;
         }
-
+        //Graphics.camera.lookAt(Graphics.cube.position);
         Graphics.renderer.render( Graphics.scene, Graphics.camera );
     }
 }
@@ -89,9 +109,8 @@ AcornSetup.input();
 
 function moveCamera(dir){
     var scrollSpeed = 10;
-    var hyp = Math.sqrt(Math.pow(Graphics.camera.rotation.x,2) + Math.pow(Graphics.camera.rotation.y,2) + Math.pow(Graphics.camera.rotation.z,2));
     var vec = new THREE.Vector3(0,0,scrollSpeed)
-    console.log(vec.applyEuler(Graphics.camera.rotation));
+    vec.applyEuler(Graphics.camera.rotation);
     Graphics.camera.position.x += vec.x*dir;
     Graphics.camera.position.y += vec.y*dir;
     Graphics.camera.position.z += vec.z*dir;
