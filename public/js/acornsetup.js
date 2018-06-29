@@ -25,13 +25,6 @@
             });
 
             Acorn.Input.onScroll(function(e) {
-                var scrollSpeed = 20;
-                if (e.deltaY < 0){scrollSpeed = -20}
-                var vec = new THREE.Vector3(0,0,scrollSpeed)
-                vec.applyEuler(Graphics.camera.rotation);
-                Graphics.camera.position.x += vec.x;
-                Graphics.camera.position.y += vec.y;
-                Graphics.camera.position.z += vec.z;
             });
 
             Acorn.Input.onMouseMove(function(e) {
@@ -39,16 +32,20 @@
                     X: Acorn.Input.mouse.X - Acorn.Input.mouse.prevX,
                     Y: Acorn.Input.mouse.Y - Acorn.Input.mouse.prevY
                 }
-                var speed = 0.0005;
+                var speed = 0.005;
                 if (Acorn.Input.buttons[2]){
+                    document.body.style.cursor = 'none';
                     Acorn.Input.phi = delta.Y * speed;
                     Acorn.Input.theta = delta.X * speed;
                     var targetPosition = new THREE.Vector3(Graphics.camera.rotation.x,Graphics.camera.rotation.y,Graphics.camera.rotation.z).normalize(),
                         position = Graphics.camera.position;
                     //Graphics.camera.lookAt( targetPosition );
                     Graphics.camera.rotateOnWorldAxis(new THREE.Vector3(0,0,1),(-delta.X*speed));
-                    //Graphics.camera.rotateOnWorldAxis(new THREE.Vector3(1,0,0),(delta.Y*speed));
+                    Graphics.camera.rotateOnAxis(new THREE.Vector3(1,0,0),(-delta.Y*speed));
+                }else{
+                    document.body.style.cursor = 'default';
                 }
+
             });
 
             Acorn.Input.onTouchEvent(function(e) {

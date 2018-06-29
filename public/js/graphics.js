@@ -34,16 +34,23 @@
             document.body.appendChild( this.renderer.domElement );
 
             //add some test geometry
-            var geometry = new THREE.PlaneGeometry(512,512,64,64);
+            var geometry = new THREE.PlaneGeometry(1024,1024,512,512);
             var spriteMap  = new THREE.TextureLoader().load('img/textures/desert_cracks_d.jpg');
-            var material = new THREE.MeshBasicMaterial( { map: spriteMap, color: 0xffffff } );
+            var material = new THREE.MeshBasicMaterial( {map: spriteMap, color: 0xdcdcdc } );
             var light = new THREE.AmbientLight(0x404040,5); // soft white light
             this.cube = new THREE.Mesh( geometry, material );
             this.scene.add( this.cube );
             this.camera.position.z = 500;
             this.camera.position.y = -500;
             this.camera.up = new THREE.Vector3(0,0,1);
-            //for (var i = 0; i < Graphics.cube.geometry.vertices.length;i++){Graphics.cube.geometry.vertices[i].z = Math.round(Math.random()*30);}
+            var vert = 0;
+            for (var i = 0; i < 512;i++){
+                for (var j = 0; j < 512;j++){
+                    Graphics.cube.geometry.vertices[vert].z = ((j+1)/30);
+                    vert += 1;
+                }
+            }
+            //for (var i = 0; i < Graphics.cube.geometry.vertices.length;i++){Graphics.cube.geometry.vertices[i].z = (i+1)/100;}
             Graphics.cube.geometry.verticesNeedUpdate=true;
             Graphics.cube.geometry.normalsNeedUpdate=true;
             Graphics.cube.geometry.computeBoundingSphere();
@@ -53,7 +60,7 @@
 
             //add a test model
             this.model = null;
-            this.gLoader = new THREE.GLTFLoader();
+            /*this.gLoader = new THREE.GLTFLoader();
             this.gLoader.load(
                 // resource URL
                 'img/models/scene.gltf',
@@ -77,7 +84,7 @@
                     console.log( 'An error happened' );
 
                 }
-            );
+            );*/
             this.ready = true;
             //this.loadTextures();
         },

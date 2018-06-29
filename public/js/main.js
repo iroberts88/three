@@ -68,17 +68,17 @@ function animate() {
     var speed = 20;
     if (Graphics.ready){
         if (Acorn.Input.isPressed(Acorn.Input.Key.UP)){
-            var scrollSpeed = speed;
-            var vec = new THREE.Vector3(0,scrollSpeed,0)
-            console.log(vec.applyEuler(Graphics.camera.rotation));
+            var scrollSpeed = -20;
+            var vec = new THREE.Vector3(0,0,scrollSpeed)
+            vec.applyEuler(Graphics.camera.rotation);
             Graphics.camera.position.x += vec.x;
             Graphics.camera.position.y += vec.y;
             Graphics.camera.position.z += vec.z;
         }
         if (Acorn.Input.isPressed(Acorn.Input.Key.DOWN)){
-            var scrollSpeed = -speed;
-            var vec = new THREE.Vector3(0,scrollSpeed,0)
-            console.log(vec.applyEuler(Graphics.camera.rotation));
+            var scrollSpeed = 20;
+            var vec = new THREE.Vector3(0,0,scrollSpeed)
+            vec.applyEuler(Graphics.camera.rotation);
             Graphics.camera.position.x += vec.x;
             Graphics.camera.position.y += vec.y;
             Graphics.camera.position.z += vec.z;
